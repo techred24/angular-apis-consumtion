@@ -9,20 +9,16 @@ import { Product } from '../../models/product.model';
 })
 export class ProductComponent {
 
-  @Input() product: Product = {
-    id: '',
-    price: 0,
-    image: '',
-    title: '',
-    category: '',
-    description: ''
-  };
+  @Input() product!: Product;
   @Output() addedProduct = new EventEmitter<Product>();
-
+  @Output() showProduct = new EventEmitter<string>();
   constructor() { }
 
   onAddToCart() {
     this.addedProduct.emit(this.product);
   }
 
+  onShowDetail() {
+    this.showProduct.emit(this.product.id);
+  }
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Product } from '../../models/product.model';
+import { CreateProductDTO, Product } from '../../models/product.model';
 
 import { StoreService } from '../../services/store.service';
 import { ProductsService } from '../../services/products.service';
@@ -15,6 +15,8 @@ export class ProductsComponent implements OnInit {
   myShoppingCart: Product[] = [];
   total = 0;
   products: Product[] = [];
+  showProductDetail = false;
+  productChosen!: Product;
 
   constructor(
     private storeService: StoreService,
@@ -35,4 +37,28 @@ export class ProductsComponent implements OnInit {
     this.total = this.storeService.getTotal();
   }
 
+  toggleProductDetail() {
+    this.showProductDetail = !this.showProductDetail;
+  }
+  onShowDetail(id: string) {
+    this.productsService.getProduct(id)
+      .subscribe((product: Product) => {
+        this.toggleProductDetail();
+        this.productChosen = product;
+      });
+  }
+  createNewProduct() {
+    const product: CreateProductDTO = {
+      title: 'Nuevo Producto',
+      description: 'bla bla bla',
+      images: [''],
+      price: 1000,
+      categoryId: 2
+    }
+    this.productsService.create(product)
+      .subscribe(data => {
+        console.log('created', data);
+        this.products.unshift(data);
+      })
+  }
 }
