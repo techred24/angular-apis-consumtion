@@ -20,8 +20,8 @@ export class TimeInterceptor implements HttpInterceptor {
   constructor() {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    console.log(request.context, 'CONTEXT');
-    console.log(request.context.get(CHECK_TIME), 'CONTEXT GET');
+    // console.log(request.context, 'CONTEXT');
+    // console.log(request.context.get(CHECK_TIME), 'CONTEXT GET');
     if (request.context.get(CHECK_TIME)) {
       const start = performance.now();
       return next.handle(request)

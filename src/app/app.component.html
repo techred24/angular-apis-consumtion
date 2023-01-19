@@ -2,6 +2,11 @@
 <button (click)="createUser()">Crear usuario</button>
 <button (click)="login()">Login</button>
 <button (click)="getProfile()">Consigue Perfil</button>
+<button (click)="downloadPdf()">Descargar PDF</button>
+<p>
+  <input type="file" (change)="onUpload($event)">
+  <img *ngIf="imgRta" [src]="imgRta">
+</p>
 <app-products></app-products>
 <!-- <p><input type="text" [(ngModel)]="imgParent" /></p>
 <button (click)="toggleImg()">Toggle Img</button>

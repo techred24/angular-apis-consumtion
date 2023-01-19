@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { Product } from './models/product.model';
 import { AuthService } from './services/auth.service';
 import { UsersService } from './services/users.service';
+import { FilesService } from './services/files.service';
 
 @Component({
   selector: 'app-root',
@@ -13,10 +14,12 @@ export class AppComponent {
   imgParent = '';
   showImg = true;
   token = '';
+  imgRta = '';
 
   constructor(
     private authService: AuthService,
-    private userService: UsersService
+    private userService: UsersService,
+    private fileService: FilesService
   ) {
 
   }
@@ -51,5 +54,20 @@ export class AppComponent {
       .subscribe(profile => {
         console.log(profile);
       })
+  }
+  downloadPdf() {
+    this.fileService.getFile('miPdf', 'https://pdfhive.com/wp-content/uploads/2019/03/Genius-Foods-Become-Smarter-and-Happier-While-Protecting-Your-Brain-for-Life1.pdf', 'application/pdf')
+      .subscribe()
+  }
+  onUpload(event: Event) {
+    const element = event.target as HTMLInputElement
+    const file = element.files?.item(0)
+    if (file) {
+      this.fileService.uploadFile(file)
+        .subscribe(rta => {
+          console.log(rta.location, 'EL LOCATION')
+          this.imgRta = rta.location;
+        });
+    }
   }
 }
